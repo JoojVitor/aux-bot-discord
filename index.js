@@ -1,5 +1,16 @@
+const express = require('express');
+const path = require('path');
+const PORT = process.env.PORT || 5000;
+
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
 const Discord = require("discord.js");
-const config = require("./config.json");
+require('dotenv').config();
 
 const { Client, Intents, MessageEmbed } = Discord;
 const client = new Client({ 
@@ -76,6 +87,6 @@ client.on("messageReactionAdd", function(messageReaction, user){
     }
 });
 
-client.login(config.BOT_TOKEN).then(() => {
+client.login(process.env.BOT_TOKEN).then(() => {
     client.user.setPresence({ activities: [{ name: 'your mind!', type: 'LISTENING' }], status: 'online' });
 });
